@@ -1,6 +1,5 @@
 package com.malex.model;
 
-import com.malex.model.BaseEntity;
 
 import javax.persistence.*;
 
@@ -8,14 +7,16 @@ import javax.persistence.*;
 @Table(name = "bank")
 public class Bank extends BaseEntity {
 
-    @Column(name = "name")
+
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+   @OneToOne
     private Employee employee;
 
     public Bank() {
     }
+
 
     public String getName() {
         return name;
@@ -33,8 +34,10 @@ public class Bank extends BaseEntity {
         this.employee = employee;
     }
 
+
     @Override
     public boolean equals(Object o) {
+
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -42,9 +45,8 @@ public class Bank extends BaseEntity {
         Bank bank = (Bank) o;
 
         if (name != null ? !name.equals(bank.name) : bank.name != null) return false;
-        if (employee != null ? !employee.equals(bank.employee) : bank.employee != null) return false;
+        return employee != null ? employee.equals(bank.employee) : bank.employee == null;
 
-        return true;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class Bank extends BaseEntity {
     public String toString() {
         return "Bank{" +
                 "name='" + name + '\'' +
-               // ", employee=" + employee +
+                ", employee=" + employee +
                 '}';
     }
 }

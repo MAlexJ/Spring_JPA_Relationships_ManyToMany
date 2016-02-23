@@ -15,6 +15,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Profile("test")
 @Configuration
@@ -71,6 +72,8 @@ public class JPAConfigTest {
         entityManagerFactory.setDataSource(dataSource());
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
         entityManagerFactory.setPackagesToScan(packagesToScan);
+        Properties jpaProperties = new Properties();
+        entityManagerFactory.setJpaProperties(jpaProperties);
         return entityManagerFactory;
     }
 

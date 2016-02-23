@@ -52,12 +52,7 @@
       <version>${spring.version}</version>
     </dependency>
 
-    <!-- javax.el-api -->
-    <dependency>
-      <groupId>javax.el</groupId>
-      <artifactId>javax.el-api</artifactId>
-      <version>${javax.el-api.version}</version>
-    </dependency>
+
 
     <!-- spring-data-jpa -->
     <dependency>
@@ -97,12 +92,6 @@
       <version>${hibernate-entitymanager.version}</version>
     </dependency>
 
-    <!-- hibernate-validator -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>${hibernate-validator.version}</version>
-    </dependency>
 
     <!-- spring-junit -->
     <dependency>
