@@ -2,7 +2,6 @@ package com.malex.service;
 
 import com.malex.configuration.AppConfigTest;
 
-import com.malex.model.Bank;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,25 +21,22 @@ import static junit.framework.TestCase.assertEquals;
 @WebAppConfiguration
 public class EntityTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-    //
 
-    @Autowired
-    private BankService bankService;
+//    @Autowired
+//    private BankService bankService;
 
     @Test
     @Rollback
     public void testCreate_1_0() {
-        //given
-        Bank expectBank = new Bank();
-        expectBank.setName("ABB");
-
-
-
-        //when
-        Bank actualBank = bankService.save(expectBank);
-        // then
-
-        assertEquals(expectBank, actualBank);
+//        //given
+//        Bank expectBank = new Bank();
+//        expectBank.setName("ABB");
+//
+//        //when
+//        Bank actualBank = bankService.save(expectBank);
+//        // then
+//
+//        assertEquals(expectBank, actualBank);
     }
 
 
