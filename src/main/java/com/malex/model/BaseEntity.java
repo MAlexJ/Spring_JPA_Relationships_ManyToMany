@@ -6,9 +6,17 @@ import java.io.Serializable;
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
+//    ********************** POSRGRESQL ******************************
+//    @Id
+//    @SequenceGenerator(name = "store_sequence", sequenceName = "store_sequence", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_sequence")
+//    ********************** POSRGRESQL ******************************
+
+//    ********************** END: MYSQL ******************************
     @Id
-    @SequenceGenerator(name = "store_sequence", sequenceName = "store_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_sequence")
+    @Column(name = "ID")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+//    ********************** END: MYSQL ******************************
     private Long id;
 
     public BaseEntity() {

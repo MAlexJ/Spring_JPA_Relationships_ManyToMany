@@ -15,7 +15,12 @@ public class AppConfigTest {
     @Bean
     public PropertyPlaceholderConfigurer propertyConfigurer() {
         PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();
-        configurer.setLocation(new ClassPathResource("application.properties"));
+
+        // MYSQL
+        configurer.setLocation(new ClassPathResource("application_mysql.properties"));
+
+        // POSTGRES
+//        configurer.setLocation(new ClassPathResource("application_postgres.properties"));
         return configurer;
     }
 

@@ -68,6 +68,13 @@
       <version>${postgresql.version}</version>
     </dependency>
 
+    <!-- MySQl -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.31</version>
+    </dependency>
+
     <!-- spring-core -->
     <dependency>
       <groupId>org.slf4j</groupId>

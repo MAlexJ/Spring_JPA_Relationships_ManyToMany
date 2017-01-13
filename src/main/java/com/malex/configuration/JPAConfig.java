@@ -21,64 +21,66 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "com.malex.repository")
 public class JPAConfig {
 
-    @Value("${data.username}")
-    private String username;
+   /**
+    * Config DataBase
+    */
+   @Value("${data.username}")
+   private String username;
+   @Value("${data.password}")
+   private String password;
+   @Value("${data.jdbc.driver}")
+   private String driver;
+   @Value("${data.jdbc.url}")
+   private String url;
 
-    @Value("${data.password}")
-    private String password;
+   /**
+    * Config Hibernate
+    */
+   @Value("${data.database.hibernate.show.sql}")
+   private boolean showSql;
+   @Value("${data.database.hibernate.generateddl}")
+   private boolean generateDdl;
+   @Value("${jpa.entity.package}")
+   private String packagesToScan;
+   @Value("${data.base.type.hibernate}")
+   private String typeDataBase;
 
-    @Value("${data.jdbc.driver}")
-    private String driver;
 
-    @Value("${data.jdbc.url}")
-    private String url;
+   @Bean
+   public DataSource dataSource() {
+      DriverManagerDataSource dataSource = new DriverManagerDataSource();
+      dataSource.setDriverClassName(driver);
+      dataSource.setUsername(username);
+      dataSource.setPassword(password);
+      dataSource.setUrl(url);
+      return dataSource;
+   }
 
-    @Value("${data.showsql}")
-    private boolean showSql;
+   @Bean
+   public JpaVendorAdapter jpaVendorAdapter() {
+      HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+      jpaVendorAdapter.setShowSql(showSql);
+      jpaVendorAdapter.setGenerateDdl(generateDdl);
+      jpaVendorAdapter.setDatabase(Database.valueOf(typeDataBase));
+      jpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQL5Dialect");
+      return jpaVendorAdapter;
+   }
 
-    @Value("${data.generateddl}")
-    private boolean generateDdl;
+   @Bean
+   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+      LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+      entityManagerFactory.setDataSource(dataSource());
+      entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
+      entityManagerFactory.setPackagesToScan(packagesToScan);
+      Properties jpaProperties = new Properties();
+      entityManagerFactory.setJpaProperties(jpaProperties);
+      return entityManagerFactory;
+   }
 
-    @Value("${data.database}")
-    private String database;
-
-    @Value("${data.entity.package}")
-    private String packagesToScan;
-
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driver);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        dataSource.setUrl(url);
-        return dataSource;
-    }
-
-    @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        jpaVendorAdapter.setShowSql(showSql);
-        jpaVendorAdapter.setGenerateDdl(generateDdl);
-        jpaVendorAdapter.setDatabase(Database.valueOf(database));
-        return jpaVendorAdapter;
-    }
-
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setDataSource(dataSource());
-        entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
-        entityManagerFactory.setPackagesToScan(packagesToScan);
-        Properties jpaProperties = new Properties();
-        entityManagerFactory.setJpaProperties(jpaProperties);
-        return entityManagerFactory;
-    }
-
-    @Bean
-    public JpaTransactionManager transactionManager() {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-        return transactionManager;
-    }
+   @Bean
+   public JpaTransactionManager transactionManager() {
+      JpaTransactionManager transactionManager = new JpaTransactionManager();
+      transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+      return transactionManager;
+   }
 }
