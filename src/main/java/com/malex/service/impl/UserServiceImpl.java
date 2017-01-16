@@ -19,26 +19,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        return null;
+        return repository.saveAndFlush(user);
     }
 
     @Override
     public User update(User user) {
-        return null;
+        return repository.saveAndFlush(user);
     }
 
     @Override
     public void delete(Long id) {
-
+        repository.delete(id);
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        return repository.findOne(id);
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return repository.findAll();
     }
+
+   @Override
+   public User getUserByEmail(String email) {
+//      Map<String, Object> parameters = new HashMap<String, Object>();
+//      parameters.put ("email", email);
+//      User usr = find (User.class, "User.getByEmailOnly", parameters);
+      return null;
+   }
 }

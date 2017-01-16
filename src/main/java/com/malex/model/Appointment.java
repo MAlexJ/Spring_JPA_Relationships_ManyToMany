@@ -1,8 +1,6 @@
 package com.malex.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -11,8 +9,12 @@ import java.util.List;
  * @author malex
  */
 @Entity
-@Table(name = "appointment")
-public class Appointment extends BaseEntity {
+@Table(name = "appointments")
+public class Appointment {
+
+   @Id
+   @GeneratedValue(strategy=GenerationType.AUTO)
+   private int appointmentId;
 
     private String description;
     private String status;
@@ -25,7 +27,15 @@ public class Appointment extends BaseEntity {
     public Appointment() {
     }
 
-    public List<User> getUsers() {
+   public int getAppointmentId() {
+      return appointmentId;
+   }
+
+   public void setAppointmentId(int appointmentId) {
+      this.appointmentId = appointmentId;
+   }
+
+   public List<User> getUsers() {
         return users;
     }
 

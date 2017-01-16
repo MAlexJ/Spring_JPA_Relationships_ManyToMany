@@ -1,4 +1,4 @@
-package com.malex.model;
+package com.malex.model.base;
 
 import javax.persistence.*;
 import java.io.Serializable;

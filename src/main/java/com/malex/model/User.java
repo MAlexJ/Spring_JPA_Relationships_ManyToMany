@@ -1,5 +1,8 @@
 package com.malex.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,51 +13,76 @@ import java.util.List;
  */
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+@NamedQueries({
+        @NamedQuery(name = "User.getByEmail", query = "SELECT u FROM User u where u.email = :email")
+})
+public class User {
 
-    private String firstName;
-    private String lastName;
-    private String email;
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   private int userId;
 
-    // bi-directional many-to-many association to Appointment
-    @ManyToMany
-    @JoinTable(name = "users_appointments",
-            joinColumns = { @JoinColumn(name = "userId") },
-            inverseJoinColumns = { @JoinColumn(name = "appointmentId") })
-    private List<Appointment> appointments;
+   private String firstName;
+   private String lastName;
+   private String email;
+   private String type;
 
-    public User() {
-    }
+   // bi-directional many-to-many association to Appointment
+   @ManyToMany
+   @Fetch(FetchMode.SUBSELECT)
+   @JoinTable(name = "users_appointments",
+           joinColumns = {@JoinColumn(name = "userId")},
+           inverseJoinColumns = {@JoinColumn(name = "appointmentId")})
+   private List<Appointment> appointments;
 
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
+   public User() {
+   }
 
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
+   public int getUserId() {
+      return userId;
+   }
 
-    public String getFirstName() {
-        return firstName;
-    }
+   public void setUserId(int userId) {
+      this.userId = userId;
+   }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+   public String getType() {
+      return type;
+   }
 
-    public String getLastName() {
-        return lastName;
-    }
+   public void setType(String type) {
+      this.type = type;
+   }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+   public List<Appointment> getAppointments() {
+      return appointments;
+   }
 
-    public String getEmail() {
-        return email;
-    }
+   public void setAppointments(List<Appointment> appointments) {
+      this.appointments = appointments;
+   }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+   public String getFirstName() {
+      return firstName;
+   }
+
+   public void setFirstName(String firstName) {
+      this.firstName = firstName;
+   }
+
+   public String getLastName() {
+      return lastName;
+   }
+
+   public void setLastName(String lastName) {
+      this.lastName = lastName;
+   }
+
+   public String getEmail() {
+      return email;
+   }
+
+   public void setEmail(String email) {
+      this.email = email;
+   }
 }

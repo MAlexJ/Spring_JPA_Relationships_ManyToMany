@@ -1,7 +1,8 @@
 package com.malex.service;
 
 import com.malex.configuration.AppConfigTest;
-
+import com.malex.model.Appointment;
+import com.malex.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,8 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import static junit.framework.TestCase.assertEquals;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @ActiveProfiles("test")
@@ -21,23 +23,68 @@ import static junit.framework.TestCase.assertEquals;
 @WebAppConfiguration
 public class EntityTest extends AbstractTransactionalJUnit4SpringContextTests {
 
+   @Autowired
+   private AppointmentService appointmentService;
 
-//    @Autowired
-//    private BankService bankService;
+   @Autowired
+   private UserService userService;
 
-    @Test
-    @Rollback
-    public void testCreate_1_0() {
-//        //given
-//        Bank expectBank = new Bank();
-//        expectBank.setName("ABB");
-//
-//        //when
-//        Bank actualBank = bankService.save(expectBank);
-//        // then
-//
-//        assertEquals(expectBank, actualBank);
-    }
+   @Test
+   @Rollback(value = false)
+   public void testCreate_1_0() {
 
+      // >>> Patients
+      User patient_01 = createUser("Alex", "M", "alex@com.com", "PATIENT");
+      User patient_02 = createUser("Max", "S", "max@ss.sss", "PATIENT");
+      User patient_03 = createUser("Anna", "Kov", "kov@kk.kkk", "PATIENT");
+
+      // >>> Doctors
+      User doctor_01 = createUser("ADoc", "AI", "doc@email.com", "DOCTOR");
+      User doctor_02 = createUser("BB_DOC", "DD", "dddddd@ddddd.com", "DOCTOR");
+
+      // create users
+      userService.save(patient_01);
+      userService.save(patient_02);
+      userService.save(patient_03);
+      userService.save(doctor_01);
+      userService.save(doctor_02);
+
+      // #2
+      Appointment appointment = createAppointment("Headache","In progress");
+      appointmentService.save(appointment);
+
+      List<Appointment> appointmentList = new ArrayList<>();
+      appointmentList.add(appointment);
+
+      // #3
+      patient_01.setAppointments(appointmentList);
+      doctor_01.setAppointments(appointmentList);
+
+   }
+
+
+
+
+   /**
+    * Create a new User
+    */
+   private User createUser(String firstName, String lastName, String email, String type) {
+      User user = new User();
+      user.setFirstName(firstName);
+      user.setLastName(lastName);
+      user.setEmail(email);
+      user.setType(type);
+      return user;
+   }
+
+   /**
+    * Create a new Appointment
+    */
+   private Appointment createAppointment(String description, String status) {
+      Appointment appointment = new Appointment();
+      appointment.setDescription(description);
+      appointment.setStatus(status);
+      return appointment;
+   }
 
 }
