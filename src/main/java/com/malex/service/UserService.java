@@ -13,11 +13,15 @@ public interface UserService {
 
     User update(User user);
 
-    void delete(Long id);
+    void delete(int id);
 
-    User get(Long id);
+    User get(int id);
 
     List<User> getAll();
 
-   User getUserByEmail(String email);
+    User getUserByEmail(String email);
+
+    User getUserIgnoreAppointment(String email);
+
+    User getUserWithAppointment(String email);
 }

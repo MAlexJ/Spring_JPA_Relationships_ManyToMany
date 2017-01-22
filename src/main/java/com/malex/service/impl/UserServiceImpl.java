@@ -28,12 +28,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(int id) {
         repository.delete(id);
     }
 
     @Override
-    public User get(Long id) {
+    public User get(int id) {
         return repository.findOne(id);
     }
 
@@ -49,4 +49,14 @@ public class UserServiceImpl implements UserService {
 //      User usr = find (User.class, "User.getByEmailOnly", parameters);
       return null;
    }
+
+    @Override
+    public User getUserIgnoreAppointment(String email) {
+        return repository.getUserIgnoreAppointment(email);
+    }
+
+    @Override
+    public User getUserWithAppointment(String email) {
+        return repository.getUserWithAppointment(email);
+    }
 }

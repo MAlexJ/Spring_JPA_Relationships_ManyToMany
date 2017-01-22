@@ -4,6 +4,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,10 +14,23 @@ import java.util.List;
  */
 @Entity
 @Table(name = "users")
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = User.USER_GRAPH,
+                attributeNodes = {
+                        @NamedAttributeNode("appointments")
+                }
+        )
+})
+
 @NamedQueries({
         @NamedQuery(name = "User.getByEmail", query = "SELECT u FROM User u where u.email = :email")
 })
-public class User {
+
+
+public class User implements Serializable{
+
+   public final static String USER_GRAPH = "userWithAppointment";
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,8 +42,7 @@ public class User {
    private String type;
 
    // bi-directional many-to-many association to Appointment
-   @ManyToMany
-   @Fetch(FetchMode.SUBSELECT)
+   @ManyToMany(fetch = FetchType.LAZY)
    @JoinTable(name = "users_appointments",
            joinColumns = {@JoinColumn(name = "userId")},
            inverseJoinColumns = {@JoinColumn(name = "appointmentId")})

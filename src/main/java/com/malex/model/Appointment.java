@@ -1,6 +1,7 @@
 package com.malex.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "appointments")
-public class Appointment {
+public class Appointment implements Serializable {
 
    @Id
    @GeneratedValue(strategy=GenerationType.AUTO)
@@ -20,7 +21,7 @@ public class Appointment {
     private String status;
 
     //bi-directional many-to-many association to User
-    @ManyToMany(mappedBy = "appointments")
+    @ManyToMany(mappedBy = "appointments", fetch = FetchType.LAZY)
     private List<User> users;
 
 

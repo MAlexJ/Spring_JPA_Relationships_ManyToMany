@@ -63,6 +63,31 @@ public class EntityTest extends AbstractTransactionalJUnit4SpringContextTests {
    }
 
 
+   @Test
+   public void testGetUserIgnoreAppointment(){
+      User user = userService.getUserIgnoreAppointment("alex@com.com");
+
+      System.err.println(user.getEmail());
+
+      for(Appointment appointment: user.getAppointments()){
+         System.err.println(appointment.getDescription());
+         System.err.println(appointment.getUsers());
+      }
+
+   }
+
+   @Test
+   public void test(){
+      User user = userService.getUserWithAppointment("alex@com.com");
+
+      System.err.println(user.getEmail());
+
+      for(Appointment appointment: user.getAppointments()){
+         System.err.println(appointment.getDescription());
+         System.err.println(appointment.getUsers());
+      }
+   }
+
 
 
    /**
